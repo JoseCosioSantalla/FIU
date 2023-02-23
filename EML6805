@@ -1,1 +1,84 @@
 
+Code your line follower algorithm... start finding the line!
+
+To keep organized, go to your Projects folder and
+
+cd Projects
+
+Start from the code
+
+wget http://arc-robotics.fiu.edu/aabrahao/downloads/line_follower.tar.gz 
+    
+
+
+
+Links to an external site.
+
+To unzip tar.gz files, type
+
+tar -xvzf filename.tar.gz
+
+Use the images collected in class
+
+wget http://arc-robotics.fiu.edu/aabrahao/downloads/line_images.tar.gz
+    
+
+
+
+Links to an external site.
+
+Instead of RGB (red, green, and blue) pixels. OpenCV actually stores pixels as BGR. Add plots from HSV (hue, saturation, and value).
+
+Convert the pixel only. Keep the BGR image intact and keep plotting the RGB values!
+
+"Unlike RGB and CMYK, which use primary colors, HSV is closer to how humans perceive color. It has three components: hue, saturation, and value. This color space describes colors (hue or tint) in terms of their shade (saturation or amount of gray) and brightness value. Selecting an HSV color begins with picking one of the available hues and then adjusting the shade and brightness values."  https://www.lifewire.com/what-is-hsv-in-design-1078068?utm_source=emailshare&utm_medium=social&utm_campaign=shareurlbuttons
+
+Links to an external site.
+
+Using RGB or HSV, select and display the edges of the line to be followed in the image and compute and display the location of the midline pixel. Then display also the target error = half image width - midline pixel.
+
+At last, integrate video capture!
+
+#include <iostream>
+#include <opencv2/opencv.hpp>
+#include <string>
+
+void info(void) {
+    std::cout << "EML 4840 Robot Design" << std::endl
+              << "Florida International University" << std::endl
+              << "Department of Mechanical and Materials Engineering" << std::endl
+              << "Anthony Abrahao <aabrahao@fiu.edu>" << std::endl
+              << "Miami, Spring 2022" << std::endl
+              << std::endl;
+}
+
+#define KEY_ESC 27
+
+int main(int argc, char **argv) {
+    info();
+    // Create a capture object from device number (or video filename)
+    cv::VideoCapture cap(0);
+    // Check if any error happened
+    if(!cap.isOpened()) {
+        std::cout << "Ops, capture cannot be created!" << std::endl;
+        return -1;
+    }
+    std::cout << "Press 'Esc' to quit..." << std::endl;
+    while(true) {
+        // Create an image object 
+        cv::Mat image;
+        // Capture frame
+        bool okay = cap.read( image );
+        // Skip if any capture error happened (or video ended)
+        if(okay) 
+            cv::imshow("Image", image);
+        // Break loop if the key 'ESC' was pressed
+        if(cv::waitKey(30) == KEY_ESC)
+            break;
+    }
+    return 0;
+}
+
+Create a personal GitHub.com account and commit your solution. Submit your GitHub address in canvas.
+
+Good luck!
